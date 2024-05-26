@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 export function ImageGallery({ images }) {
-  const [active, setActive] = useState(images[0]);
+  const [active, setActive] = useState(images[0]); 
 
   return (
     <div className="grid gap-4 md:max-w-[40vw] px-4">
