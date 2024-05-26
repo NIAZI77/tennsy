@@ -44,7 +44,7 @@ const Caps = ({ addToCart }) => {
               onMouseLeave={handleMouseLeave}
             >
               <Card
-                image={hoveredProduct === product.id ? product.images[1] : product.images[0]}
+                image={hoveredProduct === product.id ? product.images[2] : product.images[0]}
                 title={product.title}
                 discount={product.discountPercentage}
                 price={product.price}

@@ -123,7 +123,11 @@ const Cart = () => {
                         +
                       </span>
                     </div>
-                    <span className="px-2 h-full mt-2 ml-4 bg-slate-600 font-bold text-white"> {item.size}</span>
+                    {item.size && (
+                      <span className="px-2 h-full mt-2 ml-4 bg-slate-600 font-bold text-white">
+                        {item.size}
+                      </span>
+                    )}
                     <div className="flex items-center w-full md:justify-start justify-around">
                       <p className="text-sm md:relative md:right-5">
                         PKR
