@@ -128,8 +128,7 @@ const AddProduct = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log("Success:", data);
-          // Reset productData and images after successful submission
+          alert("product added successfully")
           setProductData({
             title: "",
             price: "",

@@ -139,11 +139,11 @@ const Navbar = () => {
                   Caps
                 </Link>
               </li>
-              <li className="bg-[#DBE9F4] px-8 text-red-500 py-1">
+              <li className="border-slate-500 rounded hover:bg-slate-500 hover:text-white border-2 px-8 py-1">
                 <Link
                   title="Tennsy"
                   href="/sales"
-                  className="block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0"
+                  className="block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0"
                 >
                   Sales
                 </Link>
