@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
-export function ImageGallery({images}) {
- 
+export function ImageGallery({ images }) {
   const [active, setActive] = useState(images[0]);
 
   return (
@@ -15,7 +14,10 @@ export function ImageGallery({images}) {
       </div>
       <div className="grid grid-cols-4 gap-4">
         {images.map((imgelink, index) => (
-          <div key={index} className="bg-slate-300 border-slate-500 border-2  rounded flex items-center justify-center p-2">
+          <div
+            key={index}
+            className="bg-slate-300 border-slate-500 border-2  rounded flex items-center justify-center p-2"
+          >
             <img
               onClick={() => setActive(imgelink)}
               src={imgelink}

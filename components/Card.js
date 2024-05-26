@@ -4,7 +4,7 @@ import Link from "next/link";
 const ProductCard = ({ image, title, discount = 0, price, productUrl }) => {
   return (
     <div className="my-6">
-      <Link title="Tennsy" href={productUrl} >
+      <Link title="Tennsy" href={productUrl}>
         <div className="product-card bg-white h-[300px] py-3 rounded-lg shadow-md w-72 flex items-center justify-center flex-col">
           {discount > 0 && (
             <span className="card-tag bg-slate-600 relative right-[90px] bottom-1 px-3 py-1 text-white rounded">
