@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { MdDelete } from "react-icons/md";
 
@@ -170,18 +171,22 @@ const Cart = () => {
             </p>
           </div>
           <hr className="my-4" />
-          <div className="flex justify-between">
-            <p className="text-lg font-bold">Total</p>
-            <div className="">
-              <p className="mb-1 text-lg font-bold text-right">PKR {total}</p>
-              <p className="text-sm text-gray-700">
-                Free shipping on PKR 2999+ Purchase
-              </p>
+          <div>
+            <div className="flex justify-between">
+              <p className="text-lg font-bold">Total</p>
+              <p className="mb-1 text-lg font-bold text-center">PKR {total}</p>
             </div>
+            <p className="text-sm text-gray-700">
+              Free shipping on PKR 2999+ Purchase
+            </p>
           </div>
-          <button className="mt-6 w-full rounded-md bg-slate-500 py-1.5 font-medium text-slate-50 hover:bg-slate-600">
+
+         {cart.length > 0 ? <button className="mt-6 w-full rounded-md bg-slate-500 py-1.5 font-medium text-slate-50 hover:bg-slate-600">
+           <Link href={"/checkout"}>Check out</Link> 
+          </button>:<button className="mt-6 w-full rounded-md bg-slate-400 py-1.5 font-medium text-slate-50">
             Check out
-          </button>
+          </button>}
+
         </div>
       </div>
     </div>
