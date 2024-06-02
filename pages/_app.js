@@ -9,29 +9,27 @@ export default function App({ Component, pageProps }) {
   const [cart, setCart] = useState([]);
 
   const addToCart = (product, quantity, size) => {
-    const existingProductIndex = cart.findIndex(
-      (item) => item.id === product.id
-    );
+    let existingCart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    const existingProductIndex = existingCart.findIndex(item => item.id === product.id && item.size === size);
 
     if (existingProductIndex !== -1) {
-      // Product already exists, update its quantity
-      const updatedCart = cart.map((item, index) => {
-        if (index === existingProductIndex) {
-          return { ...item, quantity: item.quantity + 1 };
-        } else {
-          return item;
-        }
-      });
-
-      setCart(updatedCart);
-      localStorage.setItem("cart", JSON.stringify(updatedCart));
+        existingCart[existingProductIndex].quantity += quantity;
     } else {
-      // Product does not exist, add it to the cart
-      const updatedCart = [...cart, { ...product, quantity, size }];
-      setCart(updatedCart);
-      localStorage.setItem("cart", JSON.stringify(updatedCart));
+        const newProduct = {
+            id: product.id,
+            image: product.images[0],
+            title: product.title,
+            size: size,
+            price:product.price,
+            quantity: quantity
+        };
+        existingCart.push(newProduct);
     }
+
+    localStorage.setItem('cart', JSON.stringify(existingCart));
   };
+
   return (
     <>
       <Head>
@@ -52,7 +50,7 @@ export default function App({ Component, pageProps }) {
       </Head>
       <Navbar />
       <div className="md:max-w-[calc(100vw-15px)] w-screen min-h-screen py-16 overflow-x-hidden">
-        <Component addToCart={addToCart} cart={cart} {...pageProps} />;
+        <Component addToCart={addToCart} cart={cart} {...pageProps} />
       </div>
       <Footer />
     </>

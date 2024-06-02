@@ -4,10 +4,10 @@ import { MdDelete } from "react-icons/md";
 
 const Cart = () => {
   const [cart, setCart] = useState([]);
-  const [subtotal, setSubtotal] = useState(0); // State to hold subtotal value
-  const shippingThreshold = 2999; // Purchase threshold for free shipping
+  const [subtotal, setSubtotal] = useState(0);
+  const shippingThreshold = 2999;
   const shippingFee =
-    cart.length === 0 ? 0 : subtotal >= shippingThreshold ? 0 : 199; // Updated shipping fee calculation
+    cart.length === 0 ? 0 : subtotal >= shippingThreshold ? 0 : 199;
 
   useEffect(() => {
     const storedCart = localStorage.getItem("cart");
@@ -19,12 +19,12 @@ const Cart = () => {
   useEffect(() => {
     const subTotalValue = calculateSubtotal();
     setSubtotal(subTotalValue);
-    localStorage.setItem("subtotal", subTotalValue); // Store subtotal in local storage
-  }, [cart]); // Recalculate subtotal whenever cart changes
+    localStorage.setItem("subtotal", subTotalValue);
+  }, [cart]);
 
   const updateCartQuantity = (id, newQuantity) => {
     const updatedCart = cart.map((item) => {
-      if (item.id === id) {
+      if (item.id === id && item.size == size) {
         return { ...item, quantity: newQuantity };
       }
       return item;
@@ -33,9 +33,9 @@ const Cart = () => {
     localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
-  const incrementQuantity = (id) => {
+  const incrementQuantity = (id,size) => {
     const updatedCart = cart.map((item) => {
-      if (item.id === id) {
+      if (item.id === id && item.size == size) {
         return { ...item, quantity: item.quantity + 1 };
       }
       return item;
@@ -44,9 +44,9 @@ const Cart = () => {
     localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
-  const decrementQuantity = (id) => {
+  const decrementQuantity = (id,size) => {
     const updatedCart = cart.map((item) => {
-      if (item.id === id && item.quantity > 1) {
+      if (item.id === id && item.size == size && item.quantity > 1) {
         return { ...item, quantity: item.quantity - 1 };
       }
       return item;
@@ -55,11 +55,12 @@ const Cart = () => {
     localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
-  const removeFromCart = (id) => {
-    const updatedCart = cart.filter((item) => item.id !== id);
+  const removeFromCart = (id, size) => {
+    const updatedCart = cart.filter((item) => item.id !== id || item.size !== size);
     setCart(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
-  };
+};
+
 
   const calculateSubtotal = () => {
     return cart
@@ -74,7 +75,6 @@ const Cart = () => {
       .toFixed(2);
   };
 
-  // Calculate total including subtotal and shipping fee
   const total = parseInt(subtotal) + shippingFee;
 
   return (
@@ -98,7 +98,7 @@ const Cart = () => {
                 </span>
 
                 <img
-                  src={item.images[0]}
+                  src={item.image}
                   className="w-full rounded-lg sm:w-40 object-contain"
                   alt={item.title}
                 />
@@ -111,14 +111,14 @@ const Cart = () => {
                   <div className="mt-1 flex justify-between im sm:space-y-1 sm:mt-0 sm:block sm:space-x-6">
                     <div className="flex items-center font-semibold border-gray-100 py-1 ">
                       <span
-                        onClick={() => decrementQuantity(item.id)}
+                        onClick={() => decrementQuantity(item.id,item.size)}
                         className="cursor-pointer font-bold rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-slate-500 hover:text-slate-50 "
                       >
                         -
                       </span>
                       <span className="text-center w-6">{item.quantity}</span>
                       <span
-                        onClick={() => incrementQuantity(item.id)}
+                        onClick={() => incrementQuantity(item.id,item.size)}
                         className="font-bold cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-slate-500 hover:text-slate-50"
                       >
                         +
@@ -143,7 +143,7 @@ const Cart = () => {
                         )}
                       </p>
                       <MdDelete
-                        onClick={() => removeFromCart(item.id)} // Call removeFromCart function with item id
+                        onClick={() => removeFromCart(item.id,item.size)}
                         className="h-5 w-5 cursor-pointer duration-150 hover:text-red-500"
                       />
                     </div>
@@ -157,7 +157,7 @@ const Cart = () => {
             </p>
           )}
         </div>
-        {/* Sub total */}
+        
         <div className="mt-6 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3">
           <div className="mb-2 flex justify-between">
             <p className="text-gray-700">Subtotal</p>
@@ -167,7 +167,7 @@ const Cart = () => {
             <p className="text-gray-700">Shipping</p>
             <p className="text-gray-700">
               PKR {shippingFee}
-              {shippingFee === 0 && cart.length > 0 ? "(Free)" : ""}
+              {shippingFee === 0 && cart.length > 0 ? " (Free)" : ""}
             </p>
           </div>
           <hr className="my-4" />
@@ -176,17 +176,20 @@ const Cart = () => {
               <p className="text-lg font-bold">Total</p>
               <p className="mb-1 text-lg font-bold text-center">PKR {total}</p>
             </div>
-            <p className="text-sm text-gray-700">
+            <p className="text-sm text-gray-700 text-center">
               Free shipping on PKR 2999+ Purchase
             </p>
           </div>
 
-         {cart.length > 0 ? <button className="mt-6 w-full rounded-md bg-slate-500 py-1.5 font-medium text-slate-50 hover:bg-slate-600">
-           <Link href={"/checkout"}>Check out</Link> 
-          </button>:<button className="mt-6 w-full rounded-md bg-slate-400 py-1.5 font-medium text-slate-50">
-            Check out
-          </button>}
-
+          {cart.length > 0 ? (
+            <button className="mt-6 w-full rounded-md bg-slate-500 py-1.5 font-medium text-slate-50">
+              <Link href={"/checkout"}>Check out</Link>
+            </button>
+          ) : (
+            <button className="mt-6 w-full rounded-md bg-slate-400 py-1.5 font-medium text-slate-50">
+              Check out
+            </button>
+          )}
         </div>
       </div>
     </div>

@@ -125,15 +125,15 @@ const ProductPage = ({ addToCart }) => {
                     })}
                   </div>
                 </div>
-                <span
-                  className="flex items-center justify-center rounded-md bg-slate-800 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300"
+                <button
+                  className="flex items-center justify-center w-full rounded-md bg-slate-800 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300"
                   onClick={() => {
                     addToCart(item, quantity, selectedSize); // Pass quantity to addToCart function
                   }}
                 >
                   <FaCartArrowDown />
                   <span className="pl-2">Add to cart</span>
-                </span>
+                </button>
               </div>
             </div>
           </div>
