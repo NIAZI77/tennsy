@@ -1,6 +1,8 @@
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { MdDelete } from "react-icons/md";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Cart = () => {
   const [cart, setCart] = useState([]);
@@ -58,7 +60,9 @@ const Cart = () => {
   const removeFromCart = (id, size) => {
     const updatedCart = cart.filter((item) => item.id !== id || item.size !== size);
     setCart(updatedCart);
+    toast.success("Product Remove Successfully")
     localStorage.setItem("cart", JSON.stringify(updatedCart));
+    
 };
 
 
@@ -79,6 +83,7 @@ const Cart = () => {
 
   return (
     <div className="h-screen bg-gray-100 pt-10">
+           <ToastContainer />
       <h1 className="mb-10 text-center text-2xl font-bold">Cart Items</h1>
 
       <div className="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0 ">

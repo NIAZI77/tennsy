@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Card from "@/components/Card";
+import Product404 from "@/components/product404";
 
 const SearchPage = ({ addToCart }) => {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchProducts = async (searchQuery) => {
     try {
+      setLoading(true);
       const response = await fetch("/api/getProducts");
       const data = await response.json();
 
@@ -23,6 +26,8 @@ const SearchPage = ({ addToCart }) => {
       }
     } catch (error) {
       console.error("Error fetching products:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -34,14 +39,18 @@ const SearchPage = ({ addToCart }) => {
     }
   }, [router.query]);
 
-  useEffect(() => {}, [filteredProducts]);
   return (
     <>
       <div>
         <h1 className="text-center pt-8 font-bold text-3xl">Search Results For: {searchQuery}</h1>
       </div>
-      <div className="flex items-center justify-between flex-wrap md:mx-4 mx-auto">
-        {fetchProducts.length > 0 ? (
+      <div className="flex items-center md:justify-around justify-center flex-wrap md:mx-4 mx-auto">
+        {loading ? (
+          <div className="h-[70vh] w-screen flex items-center justify-center ">
+            {" "}
+            <img src="loading.webp" alt="loading..." />
+          </div>
+        ) : filteredProducts.length > 0 ? (
           filteredProducts.map((product, index) => (
             <Card
               key={index}
@@ -54,10 +63,9 @@ const SearchPage = ({ addToCart }) => {
             />
           ))
         ) : (
-          <div className="h-[70vh] w-screen flex items-center justify-center ">
-            {" "}
-            <img src="loading.webp" alt="loading..." />
-          </div>
+         <div className="w-full">
+          <Product404/>
+         </div>
         )}
       </div>
     </>

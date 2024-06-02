@@ -34,7 +34,7 @@ const Checkout = () => {
       <div>
         <div className="leading-loose md:w-[45vw]">
           <form
-            className="w-full mx-auto mt-5 px-10 py-5 bg-white rounded shadow-xl"
+            className="w-full mx-auto mt-5 px-10 py-5 bg-white rounded shadow-xl scale-75"
             onSubmit={handleSubmit}
           >
             <p className="text-slate-800 text-center font-bold text-2xl">

@@ -4,6 +4,8 @@ import { useRouter } from "next/router";
 import { FaCartArrowDown } from "react-icons/fa"; // Fixed import
 import Product404 from "@/components/product404";
 import Head from "next/head";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ProductPage = ({ addToCart }) => {
   const router = useRouter();
@@ -12,6 +14,12 @@ const ProductPage = ({ addToCart }) => {
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState(""); // State to track selected size
   const [productNotFound, setProductNotFound] = useState(false); // State to track product not found
+
+
+  const showToastMessage = () => {
+    toast.success("Product Added To Cart");
+  };
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,6 +62,8 @@ const ProductPage = ({ addToCart }) => {
     <>
       {item !== null && !productNotFound ? (
         <>
+              <ToastContainer />
+
           <Head>
             <title>{item.title} - Tennsy</title>
           </Head>
@@ -126,9 +136,10 @@ const ProductPage = ({ addToCart }) => {
                   </div>
                 </div>
                 <button
-                  className="flex items-center justify-center w-full rounded-md bg-slate-800 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300"
+                  className="flex items-center justify-center w-full rounded-md bg-slate-800 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700"
                   onClick={() => {
-                    addToCart(item, quantity, selectedSize); // Pass quantity to addToCart function
+                    addToCart(item, quantity, selectedSize); 
+                    showToastMessage()
                   }}
                 >
                   <FaCartArrowDown />
