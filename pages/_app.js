@@ -17,8 +17,9 @@ export default function App({ Component, pageProps }) {
     } else {
         const newProduct = {
             id: product.id,
-            image: product.images[0],
             title: product.title,
+            discountPercentage: product.discountPercentage,
+            image: product.images[0],
             size: size,
             price:product.price,
             quantity: quantity
