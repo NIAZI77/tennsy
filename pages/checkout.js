@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import { GiHamburgerMenu } from "react-icons/gi";
 
 const Checkout = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    phoneNumber: "", // Changed key to "phoneNumber"
+    phoneNumber: "", 
     address: "",
     city: "",
     country: "",
     zip: "",
   });
 
+  const [paymentMethod, setPaymentMethod] = useState(""); 
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -19,10 +19,28 @@ const Checkout = () => {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Process form submission here
-    console.log("Form submitted with data:", formData);
+  const handlePaymentChange = (e) => {
+    setPaymentMethod(e.target.value);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await fetch('/api/sendmail', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ toMail: formData.email,conurl:"/" }),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to send email');
+      }
+      
+    alert("confirm your order from email")
+    } catch (error) {
+      console.error('Error sending email:', error);
+    }
   };
 
   return (
@@ -177,12 +195,55 @@ const Checkout = () => {
                 onChange={handleChange}
               />
             </div>
+
+            <div className="flex items-center justify-between mt-4">
+              <div>
+                <input
+                  type="radio"
+                  id="JazzCash"
+                  name="paymentMethod"
+                  value="JazzCash"
+                  checked={paymentMethod === "JazzCash"}
+                  onChange={handlePaymentChange}
+                />
+                <label htmlFor="JazzCash" className="ml-2">
+               <img src="jazzcash.png" alt="Jazzcash" className="w-20 inline"/>
+                </label>
+              </div>
+              <div>
+                <input
+                  type="radio"
+                  id="EasyPaisa"
+                  name="paymentMethod"
+                  value="EasyPaisa"
+                  checked={paymentMethod === "EasyPaisa"}
+                  onChange={handlePaymentChange}
+                />
+                <label htmlFor="EasyPaisa" className="ml-2">
+                <img src="easypaisa.png" alt="EasyPaisa" className="w-20 inline"/>
+                </label>
+              </div>
+              <div>
+                <input
+                  type="radio"
+                  id="COD"
+                  name="paymentMethod"
+                  value="COD"
+                  checked={paymentMethod === "COD"}
+                  onChange={handlePaymentChange}
+                />
+                <label htmlFor="COD" className="ml-2">
+                <img src="COD.png" alt="COD" className="w-20 inline"/>
+                </label>
+              </div>
+            </div>
+
             <div className="mt-4">
               <button
                 className="py-2 w-full text-white font-light tracking-wider bg-slate-800"
                 type="submit"
               >
-                Process To Payment
+                Place Order
               </button>
             </div>
           </form>

@@ -1,40 +1,34 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Welcome to Tennsy - Your Online T-Shirt Store!
 
-## Getting Started
+<img src="https://tennsy.vercel.app/logo.svg" alt="Tennsy Logo" width="200"/>
 
-First, run the development server:
+## About Tennsy
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Tennsy is your one-stop destination for trendy and stylish t-shirts online. We offer an extensive collection of high-quality t-shirts designed to suit every taste and occasion.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Features
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+- **Wide Range of Designs**: From quirky graphics to minimalist patterns, we have something for everyone.
+- **Premium Quality**: Our t-shirts are made from the finest materials to ensure comfort and durability.
+- **Easy Ordering**: With just a few clicks, you can browse, select, and order your favorite designs hassle-free.
+- **Secure Payment**: Rest assured, your transactions are safe and secure with our trusted payment gateway.
+- **Fast Shipping**: We strive to deliver your orders swiftly, so you can enjoy your new t-shirts without delay.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+## How to Use Tennsy
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+1. **Browse**: Explore our collection and find the perfect t-shirts that reflect your style.
+2. **Select**: Add your favorite designs to the cart.
+3. **Checkout**: Proceed to checkout and complete your order securely.
+4. **Enjoy**: Sit back and wait for your stylish t-shirts to arrive!
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Contributing
 
-## Learn More
+We welcome contributions to Tennsy! Whether you're a designer or a developer, feel free to reach out to us with your ideas and suggestions.
 
-To learn more about Next.js, take a look at the following resources:
+## Feedback
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+We value your feedback! If you have any questions, concerns, or suggestions, please don't hesitate to [contact us](mailto:info@tennsy.com).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## License
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+This project is licensed under the [MIT License](LICENSE).
