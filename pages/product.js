@@ -24,7 +24,6 @@ const ProductPage = ({ addToCart }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Only fetch data if `s` is defined
         if (s) {
           const response = await fetch("/api/getProducts");
           const cartItems = await response.json();

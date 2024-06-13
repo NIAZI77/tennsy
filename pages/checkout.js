@@ -1,48 +1,86 @@
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 
 const Checkout = () => {
+  const router = useRouter();
+
+  // State variables
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phoneNumber: "", 
     address: "",
     city: "",
     country: "",
+    email: "",
+    name: "",
+    phoneNumber: "",
     zip: "",
+    paymentM: ""
   });
-
-  const [paymentMethod, setPaymentMethod] = useState(""); 
+  const [paymentMethod, setPaymentMethod] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  // Redirect if cart is empty
+  if (typeof localStorage !== "undefined" && localStorage.getItem("cart") === null) {
+    router.push("/");
+  } else if (typeof localStorage !== "undefined" && localStorage.getItem("cart").length === 0) {
+    router.push("/");
+  }
+  
+  // Event handlers
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
-
+  
   const handlePaymentChange = (e) => {
-    setPaymentMethod(e.target.value);
+    const selectedPaymentMethod = e.target.value;
+    setPaymentMethod(selectedPaymentMethod);
+    setFormData({
+      ...formData,
+      paymentM: selectedPaymentMethod
+    });
+    console.log(selectedPaymentMethod)
   };
-
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
+  
     try {
-      const response = await fetch('/api/sendmail', {
+      setIsSubmitting(true);
+      const response = await fetch('/api/addOrder', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ toMail: formData.email,conurl:"/" }),
+        body: JSON.stringify({ detail: formData, cart: JSON.parse(localStorage.getItem("cart")), subTotal: JSON.parse(localStorage.getItem("subtotal")) }),
       });
+      const data = await response.json();
+      console.log(data);
+      router.push(`/order?id=${data.orderId}`);
       if (!response.ok) {
         throw new Error('Failed to send email');
       }
-      
-    alert("confirm your order from email")
+      const res = await fetch('/api/sendmail', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ toMail: formData.email, conurl: `${process.env.NEXT_PUBLIC_HOST}/order?id=${data.orderId}` }),
+      });
+      if (!res.ok) {
+        throw new Error('Failed to send email');
+      }
+  
+      alert("Track Order Link Is send To Your Mail");
+      localStorage.clear()
     } catch (error) {
       console.error('Error sending email:', error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
-
+  
   return (
     <div className="flex justify-around">
       <div className="md:w-[45vw] md:flex hidden justify-center items-center">
@@ -97,28 +135,26 @@ const Checkout = () => {
                   onChange={handleChange}
                 />
               </div>
-
               <div className="mt-2 md:w-[49%]">
                 <label
                   className="font-bold block text-sm text-slate-600"
-                  htmlFor="phoneNumber" // Changed htmlFor to match input id
+                  htmlFor="phoneNumber"
                 >
-                  Phone Number {/* Updated label */}
+                  Phone Number
                 </label>
                 <input
                   className="w-full p-2 text-slate-700 bg-slate-200 rounded"
-                  id="phoneNumber" // Changed id to match label htmlFor
-                  name="phoneNumber" // Changed name to match formData key
-                  type="tel" // Changed type to "tel" for phone numbers
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  type="tel"
                   required
                   placeholder="Your Phone Number"
-                  aria-label="Phone Number" // Updated aria-label
-                  value={formData.phoneNumber} // Changed value to match formData key
+                  aria-label="Phone Number"
+                  value={formData.phoneNumber}
                   onChange={handleChange}
                 />
               </div>
             </div>
-
             <div className="mt-2">
               <label
                 className="font-bold block text-sm text-slate-600"
@@ -195,19 +231,19 @@ const Checkout = () => {
                 onChange={handleChange}
               />
             </div>
-
             <div className="flex items-center justify-between mt-4">
               <div>
                 <input
                   type="radio"
                   id="JazzCash"
                   name="paymentMethod"
+                  required
                   value="JazzCash"
                   checked={paymentMethod === "JazzCash"}
                   onChange={handlePaymentChange}
                 />
                 <label htmlFor="JazzCash" className="ml-2">
-               <img src="jazzcash.png" alt="Jazzcash" className="w-20 inline"/>
+                  <img src="jazzcash.png" alt="Jazzcash" className="w-20 inline" />
                 </label>
               </div>
               <div>
@@ -216,11 +252,12 @@ const Checkout = () => {
                   id="EasyPaisa"
                   name="paymentMethod"
                   value="EasyPaisa"
+                  required
                   checked={paymentMethod === "EasyPaisa"}
                   onChange={handlePaymentChange}
                 />
                 <label htmlFor="EasyPaisa" className="ml-2">
-                <img src="easypaisa.png" alt="EasyPaisa" className="w-20 inline"/>
+                  <img src="easypaisa.png" alt="EasyPaisa" className="w-20 inline" />
                 </label>
               </div>
               <div>
@@ -229,22 +266,25 @@ const Checkout = () => {
                   id="COD"
                   name="paymentMethod"
                   value="COD"
+                  required
                   checked={paymentMethod === "COD"}
                   onChange={handlePaymentChange}
                 />
                 <label htmlFor="COD" className="ml-2">
-                <img src="COD.png" alt="COD" className="w-20 inline"/>
+                  <img src="COD.png" alt="COD" className="w-20 inline" />
                 </label>
               </div>
             </div>
-
             <div className="mt-4">
-              <button
-                className="py-2 w-full text-white font-light tracking-wider bg-slate-800"
-                type="submit"
-              >
-                Place Order
-              </button>
+              {isSubmitting ? (
+                <button className="py-2 w-full text-white font-light tracking-wider bg-gray-400 cursor-not-allowed" type="submit" disabled>
+                  submitting...
+                </button>
+              ) : (
+                <button className="py-2 w-full text-white font-light tracking-wider bg-slate-800" type="submit">
+                  Place Order
+                </button>
+              )}
             </div>
           </form>
         </div>

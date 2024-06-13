@@ -18,10 +18,10 @@ export default async function handler(req, res) {
       },
     });
     const mailOptions = {
-      from: "Tennsy <hamzaniazi0999@gmail.com>",
+      from: `Tennsy <${process.env.NEXT_PUBLIC_EMAIL_USERNAME}>`,
       to: toMail,
       subject: "Confirm Order",
-      html: `<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Confirm Your Order</title> </head> <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; text-align: center; padding: 20px;"> <div style="max-width: 600px; margin: 0 auto; background-color: #fff; padding: 40px; border-radius: 10px; box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);"> <h2 style="color: #333;">Confirm Your Order</h2> <p style="color: #666;">Thank you for your order. To confirm your purchase, please click the button below:</p> <a href=${conurl}style="display: inline-block; margin: 20px auto; padding: 15px 30px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px; font-size: 16px; border: none; cursor: pointer; transition: background-color 0.3s;"> <img src="https://static.thenounproject.com/png/812768-200.png" alt="Confirm" style="vertical-align: middle; transform: scale(1.3); margin-right: 10px; width: 20px; height: 20px;"> Confirm Order </a> </div> </body> </html>`,
+      html: `<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Track Your Order</title> </head> <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; text-align: center; padding: 20px;"> <div style="max-width: 600px; margin: 0 auto; background-color: #fff; padding: 40px; border-radius: 10px; box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);"> <h2 style="color: #333;">Track Your Order</h2> <p style="color: #666;">Thank you for your order. To confirm your purchase, please click the button below:</p> <a href=${conurl}style="display: inline-block; margin: 20px auto; padding: 15px 30px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px; font-size: 16px; border: none; cursor: pointer; transition: background-color 0.3s;">Track</a> </div> </body> </html>`,
     };
 
     try {
